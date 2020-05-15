@@ -1,30 +1,33 @@
-const fs = require('fs');
-const path = require('path')
+// 标准输入输出流试操作
+// process.stdin.pipe(process.stdout)
 
-var readFile = path.join(__dirname, 'text1.txt')
-var writeFile = path.join(__dirname, 'text2.txt')
+// 服务器以流的方式接受数据
+const http =  require('http');
+const path =  require('path');
+var fs = require('fs')
+var dist = path.join(__dirname,'text1.txt')
 
-var readStream = fs.createReadStream(readFile)
-var writeStream = fs.createWriteStream(writeFile)
-readStream.pipe(writeStream);
-readStream.on('data',(chunk)=>{
-    console.log(chunk)
+const server = http.createServer((req,res)=>{
+  var distStream = fs.createReadStream(dist) 
+  distStream.pipe(res)
 })
-readStream.on('end',()=>{
-  console.log('完成')
-})
+server.listen(8000)
 
-
-
-
-// var fs = require('fs');
+// node 读写流
+// const fs = require('fs');
 // const path = require('path')
 
-// var fileReadStream = fs.createReadStream(path.join(__dirname, 'text1.txt'));
-// var fileWriteStream = fs.createWriteStream(path.join(__dirname, 'text2.txt'));
-// fileReadStream.pipe(fileWriteStream);
+// var readFile = path.join(__dirname, 'text1.txt')
+// var writeFile = path.join(__dirname, 'text2.txt')
 
-// fileWriteStream.on('close', function () {
-//   console.log('copy over');
-
+// var readStream = fs.createReadStream(readFile)
+// var writeStream = fs.createWriteStream(writeFile)
+// readStream.pipe(writeStream);
+// readStream.on('data',(chunk)=>{
+//     console.log(chunk)
 // })
+// readStream.on('end',()=>{
+//   console.log('完成')
+// })
+
+
